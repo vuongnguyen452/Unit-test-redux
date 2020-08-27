@@ -1,27 +1,9 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent, screen } from "./test-utils";
+import App from "./App";
 
-// Notice the non default export here
-import { App } from "./App";
-
-let component;
-
-const mockProps = {
-  counter: 1,
-  increment: jest.fn(() => 1),
-  decrement: jest.fn(() => -1),
-};
-
-describe("Counter Component", () => {
-  beforeAll(() => {
-    component = shallow(<App {...mockProps} />);
-  });
-
-  it("displays the counter value", () => {
-    expect(component.find("p").text()).toBe("0");
-  });
-  it("triggers the increment function", () => {
-    component.find("#increment").simulate("click");
-    expect(mockProps.increment.mock.results[0].value).toBe(1);
-  });
+it("Renders the connected app with initialState", () => {
+  render(<App />, { initialState: { counter: "10" } });
+  console.log(screen);
+  expect(screen.getByText(/Increment/i)).toBeInTheDocument();
 });
